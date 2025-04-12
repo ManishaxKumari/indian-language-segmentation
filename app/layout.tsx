@@ -11,9 +11,9 @@ const fontSans = FontSans({
 })
 
 export const metadata = {
-  title: "Indian Language Segmentation Tool",
+  title: "BhashaSplit",
   description: "Segment Indian language text while preserving context and gender information",
-    generator: 'v0.dev'
+    generator: 'Quantum Thinkers'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

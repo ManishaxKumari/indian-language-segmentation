@@ -7,11 +7,10 @@ export default function Home() {
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400">
-            Indian Language Segmentation Tool
+           BhashaSplit
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Segment Indian language text while preserving context, gender information, and meaning for better
-            translations.
+          <p className="text-muted-foreground max-w-2xl mx-auto text-xl ">
+          Retaining the soul of Indian languages in every translation – context, gender, and meaning intact
           </p>
         </div>
 
@@ -19,7 +18,7 @@ export default function Home() {
           <Tabs defaultValue="tool" className="w-full">
             <div className="px-6 pt-6">
               <TabsList className="grid w-full grid-cols-2 mb-4">
-                <TabsTrigger value="tool">Segmentation Tool</TabsTrigger>
+                <TabsTrigger value="tool"> Magic Segmentation Tool</TabsTrigger>
                 <TabsTrigger value="about">About</TabsTrigger>
               </TabsList>
             </div>
