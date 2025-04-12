@@ -1,7 +1,13 @@
+"use client"
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import SegmentationTool from "@/components/segmentation-tool"
+import TranslationPanel from "@/components/translation-panel"
+import { useState } from "react"
+import type { Segment } from "@/lib/types"
 
 export default function Home() {
+  const [segments, setSegments] = useState<Segment[]>([])
   return (
     <main className="container mx-auto py-10 px-4 min-h-screen">
       <div className="max-w-5xl mx-auto">
@@ -17,14 +23,19 @@ export default function Home() {
         <div className="backdrop-blur-sm bg-background/30 border border-border/40 rounded-xl shadow-lg overflow-hidden">
           <Tabs defaultValue="tool" className="w-full">
             <div className="px-6 pt-6">
-              <TabsList className="grid w-full grid-cols-2 mb-4">
+              <TabsList className="grid w-full grid-cols-3 mb-4">
                 <TabsTrigger value="tool"> Magic Segmentation Tool</TabsTrigger>
+                <TabsTrigger value="translation">Translation</TabsTrigger>
                 <TabsTrigger value="about">About</TabsTrigger>
               </TabsList>
             </div>
 
             <TabsContent value="tool" className="p-6">
-              <SegmentationTool />
+              <SegmentationTool onSegmentsChange={setSegments} />
+            </TabsContent>
+
+            <TabsContent value="translation" className="p-6">
+              <TranslationPanel segments={segments} />
             </TabsContent>
 
             <TabsContent value="about" className="p-6">
