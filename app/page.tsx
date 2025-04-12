@@ -6,10 +6,10 @@ export default function Home() {
     <main className="container mx-auto py-10 px-4 min-h-screen">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400">
+          <h1 className="text-6xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400">
            BhashaSplit
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-xl ">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg ">
           Retaining the soul of Indian languages in every translation – context, gender, and meaning intact
           </p>
         </div>
@@ -35,7 +35,7 @@ export default function Home() {
                 </p>
         
 
-                <h3 className="text-xl font-semibold mt-6 mb-3">🎯Key Features</h3>
+                <h3 className="text-2xl font-semibold mt-6 mb-3">Key Features</h3>
                 <ul className="my-4 space-y-2">
                   <li>1. Preserving gender information and context</li>
                   <li>2. Creating segments that have complete meaning</li>
@@ -43,7 +43,7 @@ export default function Home() {
                   <li>4. Providing health scores for each segment</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mt-6 mb-3"> 🌐Supported Languages</h3>
+                <h3 className="text-2xl font-semibold mt-6 mb-3"> Supported Languages</h3>
                 <ul className="my-4 space-y-2">
                   <li>Hindi</li>
                   <li>Tamil</li>
@@ -51,7 +51,7 @@ export default function Home() {
                   <li>Bengali</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mt-6 mb-3"> ⚙️How It Works</h3>
+                <h3 className="text-2xl font-semibold mt-6 mb-3"> How It Works</h3>
                 <p>
                 Our tool uses language-specific linguistic rules to detect natural segment boundaries. It pays special attention to critical elements such as gender markers, context-bearing words, and named entities, ensuring translations stay faithful to the original meaning.
                 </p>
