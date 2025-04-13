@@ -742,14 +742,14 @@ export default function TranslationPanel({ segments }: TranslationPanelProps) {
                     )}
                   </div>
                   <div className="flex space-x-1">
-                    <Badge
+                    {/* <Badge
                       variant={
                         segment.healthScore >= 80 ? "success" : segment.healthScore >= 50 ? "warning" : "destructive"
                       }
                       className="text-xs"
                     >
                       {segment.healthScore}%
-                    </Badge>
+                    </Badge> */}
                   </div>
                 </div>
                 <p className="text-sm">{segment.text}</p>

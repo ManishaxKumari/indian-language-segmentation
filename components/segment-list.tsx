@@ -100,25 +100,159 @@
 //     </div>
 //   )
 // }
+
+
+
+
+// right code <with annotation and badge >
+
+
+
+// "use client"
+
+// import { Badge } from "@/components/ui/badge"
+// import { Checkbox } from "@/components/ui/checkbox"
+// import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+// import { AlertCircle, Check, Info } from "lucide-react"
+// import { motion } from "framer-motion"
+// import type { Segment } from "@/lib/types"
+
+// interface SegmentListProps {
+//   segments: Segment[]
+//   showAnnotations: boolean
+//   selectedSegments: number[]
+//   setSelectedSegments: (segments: number[]) => void
+// }
+
+// export default function SegmentList({
+//   segments,
+//   showAnnotations,
+//   selectedSegments,
+//   setSelectedSegments,
+// }: SegmentListProps) {
+//   const toggleSegmentSelection = (index: number) => {
+//     if (selectedSegments.includes(index)) {
+//       setSelectedSegments(selectedSegments.filter((i) => i !== index))
+//     } else {
+//       setSelectedSegments([...selectedSegments, index])
+//     }
+//   }
+
+//   return (
+//     <div className="space-y-3">
+//       {segments.map((segment, index) => (
+//         <motion.div
+//           key={index}
+//           initial={{ opacity: 0, y: 20 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 0.3, delay: index * 0.05 }}
+//           className={`rounded-md border p-3 flex items-start gap-3 ${
+//             selectedSegments.includes(index)
+//               ? "border-primary/50 bg-primary/5"
+//               : "border-border/30 bg-background/30 hover:border-border/50"
+//           }`}
+//         >
+//           <Checkbox
+//             checked={selectedSegments.includes(index)}
+//             onCheckedChange={() => toggleSegmentSelection(index)}
+//             className="mt-1"
+//           />
+
+//           <div className="flex-1">
+//             <div className="flex flex-wrap items-center gap-2 mb-2">
+//               <span className="text-xs text-muted-foreground">Segment {index + 1}</span>
+
+//               {showAnnotations && (
+//                 <>
+//                   <Badge
+//                     variant={
+//                       segment.healthScore >= 80 ? "success" : segment.healthScore >= 50 ? "warning" : "destructive"
+//                     }
+//                     className="text-xs"
+//                   >
+//                     {segment.healthScore}%
+//                   </Badge>
+
+//                   <Badge variant={segment.contextComplete ? "outline" : "destructive"} className="text-xs">
+//                     {segment.contextComplete ? (
+//                       <Check className="h-3 w-3 mr-1" />
+//                     ) : (
+//                       <AlertCircle className="h-3 w-3 mr-1" />
+//                     )}
+//                     Context
+//                   </Badge>
+
+//                   <Badge variant={segment.genderClear ? "outline" : "destructive"} className="text-xs">
+//                     {segment.genderClear ? (
+//                       <Check className="h-3 w-3 mr-1" />
+//                     ) : (
+//                       <AlertCircle className="h-3 w-3 mr-1" />
+//                     )}
+//                     Gender
+//                   </Badge>
+//                 </>
+//               )}
+//             </div>
+
+//             <p className="text-sm">{segment.text}</p>
+
+//             {showAnnotations && segment.entities.length > 0 && (
+//               <div className="mt-2 flex flex-wrap gap-1">
+//                 <TooltipProvider>
+//                   {segment.entities.map((entity, entityIndex) => (
+//                     <Tooltip key={entityIndex}>
+//                       <TooltipTrigger asChild>
+//                         <Badge
+//                           variant="secondary"
+//                           className={`text-xs cursor-help ${
+//                             entity.type === "gender"
+//                               ? "bg-pink-500/10 text-pink-500 hover:bg-pink-500/20"
+//                               : entity.type === "pronoun"
+//                                 ? "bg-blue-500/10 text-blue-500 hover:bg-blue-500/20"
+//                                 : entity.type === "name"
+//                                   ? "bg-purple-500/10 text-purple-500 hover:bg-purple-500/20"
+//                                   : "bg-green-500/10 text-green-500 hover:bg-green-500/20"
+//                           }`}
+//                         >
+//                           <Info className="h-3 w-3 mr-1" />
+//                           {entity.text}
+//                         </Badge>
+//                       </TooltipTrigger>
+//                       <TooltipContent>
+//                         <p className="text-xs">
+//                           {entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} at position {entity.position[0]}-
+//                           {entity.position[1]}
+//                         </p>
+//                       </TooltipContent>
+//                     </Tooltip>
+//                   ))}
+//                 </TooltipProvider>
+//               </div>
+//             )}
+//           </div>
+//         </motion.div>
+//       ))}
+//     </div>
+//   )
+// }
+
+//code with annaotion end
+
 "use client"
 
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { AlertCircle, Check, Info } from "lucide-react"
 import { motion } from "framer-motion"
 import type { Segment } from "@/lib/types"
 
 interface SegmentListProps {
   segments: Segment[]
-  showAnnotations: boolean
   selectedSegments: number[]
   setSelectedSegments: (segments: number[]) => void
 }
 
 export default function SegmentList({
   segments,
-  showAnnotations,
   selectedSegments,
   setSelectedSegments,
 }: SegmentListProps) {
@@ -154,76 +288,36 @@ export default function SegmentList({
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="text-xs text-muted-foreground">Segment {index + 1}</span>
 
-              {showAnnotations && (
-                <>
-                  <Badge
-                    variant={
-                      segment.healthScore >= 80 ? "success" : segment.healthScore >= 50 ? "warning" : "destructive"
-                    }
-                    className="text-xs"
-                  >
-                    {segment.healthScore}%
-                  </Badge>
+              <Badge
+                variant={
+                  segment.healthScore >= 80 ? "success" : segment.healthScore >= 50 ? "warning" : "destructive"
+                }
+                className="text-xs"
+              >
+                {segment.healthScore}%
+              </Badge>
 
-                  <Badge variant={segment.contextComplete ? "outline" : "destructive"} className="text-xs">
-                    {segment.contextComplete ? (
-                      <Check className="h-3 w-3 mr-1" />
-                    ) : (
-                      <AlertCircle className="h-3 w-3 mr-1" />
-                    )}
-                    Context
-                  </Badge>
-
-                  <Badge variant={segment.genderClear ? "outline" : "destructive"} className="text-xs">
-                    {segment.genderClear ? (
-                      <Check className="h-3 w-3 mr-1" />
-                    ) : (
-                      <AlertCircle className="h-3 w-3 mr-1" />
-                    )}
-                    Gender
-                  </Badge>
-                </>
+              {/* Simple gender badge */}
+              {segment.gender && (
+                <Badge 
+                  variant="outline" 
+                  className={`text-xs ${
+                    segment.gender === "male" 
+                      ? "bg-blue-500/10 text-blue-500"
+                      : "bg-pink-500/10 text-pink-500"
+                  }`}
+                >
+                  {segment.gender === "male" ? "Male" : "Female"}
+                </Badge>
               )}
             </div>
 
             <p className="text-sm">{segment.text}</p>
-
-            {showAnnotations && segment.entities.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-1">
-                <TooltipProvider>
-                  {segment.entities.map((entity, entityIndex) => (
-                    <Tooltip key={entityIndex}>
-                      <TooltipTrigger asChild>
-                        <Badge
-                          variant="secondary"
-                          className={`text-xs cursor-help ${
-                            entity.type === "gender"
-                              ? "bg-pink-500/10 text-pink-500 hover:bg-pink-500/20"
-                              : entity.type === "pronoun"
-                                ? "bg-blue-500/10 text-blue-500 hover:bg-blue-500/20"
-                                : entity.type === "name"
-                                  ? "bg-purple-500/10 text-purple-500 hover:bg-purple-500/20"
-                                  : "bg-green-500/10 text-green-500 hover:bg-green-500/20"
-                          }`}
-                        >
-                          <Info className="h-3 w-3 mr-1" />
-                          {entity.text}
-                        </Badge>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="text-xs">
-                          {entity.type.charAt(0).toUpperCase() + entity.type.slice(1)} at position {entity.position[0]}-
-                          {entity.position[1]}
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  ))}
-                </TooltipProvider>
-              </div>
-            )}
           </div>
         </motion.div>
       ))}
     </div>
   )
 }
+
+

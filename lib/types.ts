@@ -43,5 +43,6 @@ export interface Segment {
   contextComplete: boolean
   genderClear: boolean
   entities: Entity[];
+  gender?: "male" | "female"; // Added gender property
 }
 
