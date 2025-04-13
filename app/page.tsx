@@ -23,10 +23,10 @@ export default function Home() {
         <div className="backdrop-blur-sm bg-background/30 border border-border/40 rounded-xl shadow-lg overflow-hidden">
           <Tabs defaultValue="tool" className="w-full">
             <div className="px-6 pt-6">
-              <TabsList className="grid w-full grid-cols-3 mb-4">
+              <TabsList className="grid w-full grid-cols-2 mb-4">
                 <TabsTrigger value="tool"> Magic Segmentation Tool</TabsTrigger>
                 <TabsTrigger value="translation">Translation</TabsTrigger>
-                <TabsTrigger value="about">About</TabsTrigger>
+                {/* <TabsTrigger value="about">About</TabsTrigger> */}
               </TabsList>
             </div>
 
@@ -38,7 +38,7 @@ export default function Home() {
               <TranslationPanel segments={segments} />
             </TabsContent>
 
-            <TabsContent value="about" className="p-6">
+            {/* <TabsContent value="about" className="p-6">
               <div className="prose prose-invert max-w-none">
                 <h2 className="text-2xl font-semibold mb-4">About This Tool</h2>
                 <p>
@@ -67,7 +67,7 @@ export default function Home() {
                 Our tool uses language-specific linguistic rules to detect natural segment boundaries. It pays special attention to critical elements such as gender markers, context-bearing words, and named entities, ensuring translations stay faithful to the original meaning.
                 </p>
               </div>
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </div>
       </div>

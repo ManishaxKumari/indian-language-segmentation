@@ -491,6 +491,335 @@
 //   )
 // }
 
+
+//right code but with lingva
+
+// "use client"
+
+// import { useState } from "react"
+// import { Button } from "@/components/ui/button"
+// import { Card, CardContent } from "@/components/ui/card"
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+// import { Badge } from "@/components/ui/badge"
+// import { Loader2, Wand2, AlertCircle, Check, Globe } from "lucide-react"
+// import { motion } from "framer-motion"
+// import type { Segment } from "@/lib/types"
+
+// interface TranslationPanelProps {
+//   segments: Segment[]
+// }
+
+// interface TranslatedSegment extends Segment {
+//   translation: string
+//   preservesGender: boolean
+//   preservesContext: boolean
+//   preservesEntities: boolean
+//   detectedLanguage?: string
+// }
+
+// // Common languages supported by Lingva
+// const LANGUAGES = [
+//   { code: "auto", name: "Auto Detect" },
+//   { code: "en", name: "English" },
+//   { code: "hi", name: "Hindi" },
+//   { code: "es", name: "Spanish" },
+//   { code: "fr", name: "French" },
+//   { code: "de", name: "German" },
+//   { code: "it", name: "Italian" },
+//   { code: "pt", name: "Portuguese" },
+//   { code: "ru", name: "Russian" },
+//   { code: "zh", name: "Chinese" },
+//   { code: "ja", name: "Japanese" },
+//   { code: "ko", name: "Korean" },
+//   { code: "ar", name: "Arabic" },
+//   { code: "tr", name: "Turkish" },
+//   { code: "vi", name: "Vietnamese" },
+//   { code: "th", name: "Thai" },
+//   { code: "nl", name: "Dutch" },
+//   { code: "pl", name: "Polish" },
+// ]
+
+// // Map language codes to full names
+// const getLanguageName = (code: string): string => {
+//   const language = LANGUAGES.find(lang => lang.code === code);
+//   return language ? language.name : code;
+// }
+
+// export default function TranslationPanel({ segments }: TranslationPanelProps) {
+//   const [translatedSegments, setTranslatedSegments] = useState<TranslatedSegment[]>([])
+//   const [sourceLanguage, setSourceLanguage] = useState("auto")
+//   const [targetLanguage, setTargetLanguage] = useState("en")
+//   const [isTranslating, setIsTranslating] = useState(false)
+//   const [error, setError] = useState<string | null>(null)
+
+//   const translateText = async (text: string, source: string, target: string) => {
+//     try {
+//       const response = await fetch('/api/translate', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({
+//           text,
+//           source,
+//           target,
+//         }),
+//       });
+      
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.error || 'Translation failed');
+//       }
+
+//       const data = await response.json();
+      
+//       return {
+//         translation: data.translation,
+//         detectedLanguage: data.info?.detectedSource || source,
+//       };
+//     } catch (error) {
+//       console.error("Translation error:", error);
+//       throw error;
+//     }
+//   }
+
+//   // Analyze translation for quality metrics
+//   const analyzeTranslation = (original: string, translation: string) => {
+//     // This is a simplified analysis
+//     // For a production app, you'd want to implement a more sophisticated analysis
+    
+//     // Check if original and translation have similar punctuation patterns
+//     const originalPunctCount = (original.match(/[.,!?;:]/g) || []).length;
+//     const translationPunctCount = (translation.match(/[.,!?;:]/g) || []).length;
+//     const punctSimilarity = Math.abs(originalPunctCount - translationPunctCount) <= 2;
+    
+//     // Check if translated text length is reasonable compared to original
+//     const lengthRatio = translation.length / original.length;
+//     const reasonableLength = lengthRatio > 0.5 && lengthRatio < 2.5;
+    
+//     // Check for entities (capitalized words might be names, places, etc.)
+//     const originalEntities = original.match(/[A-Z][a-z]+/g) || [];
+//     const preservesEntities = originalEntities.length === 0 || Math.random() > 0.2;
+    
+//     return {
+//       preservesGender: Math.random() > 0.2, // This would need real gender analysis
+//       preservesContext: punctSimilarity && reasonableLength,
+//       preservesEntities: preservesEntities,
+//     };
+//   }
+
+//   const handleTranslate = async () => {
+//     if (segments.length === 0) return;
+
+//     setIsTranslating(true);
+//     setError(null);
+    
+//     try {
+//       const translatedResults = await Promise.all(
+//         segments.map(async (segment) => {
+//           try {
+//             const { translation, detectedLanguage } = await translateText(
+//               segment.text, 
+//               sourceLanguage, 
+//               targetLanguage
+//             );
+            
+//             const analysis = analyzeTranslation(segment.text, translation);
+            
+//             return {
+//               ...segment,
+//               translation,
+//               detectedLanguage,
+//               preservesGender: analysis.preservesGender,
+//               preservesContext: analysis.preservesContext,
+//               preservesEntities: analysis.preservesEntities,
+//             };
+//           } catch (error) {
+//             console.error(`Error translating segment: ${segment.text}`, error);
+//             return {
+//               ...segment,
+//               translation: "Translation failed",
+//               preservesGender: false,
+//               preservesContext: false,
+//               preservesEntities: false,
+//             };
+//           }
+//         })
+//       );
+
+//       setTranslatedSegments(translatedResults);
+//     } catch (error) {
+//       console.error("Translation process error:", error);
+//       setError("Failed to translate segments. Please try again.");
+//     } finally {
+//       setIsTranslating(false);
+//     }
+//   };
+
+//   return (
+//     <div className="space-y-4">
+//       <div className="flex items-center justify-between">
+//         <div className="flex items-center gap-2">
+//           <Globe className="h-5 w-5 text-blue-500" />
+//           <h2 className="text-xl font-semibold">Translation</h2>
+//         </div>
+//         <div className="flex gap-2">
+//           <Select value={sourceLanguage} onValueChange={setSourceLanguage}>
+//             <SelectTrigger className="w-[140px]">
+//               <SelectValue placeholder="Source Language" />
+//             </SelectTrigger>
+//             <SelectContent>
+//               {LANGUAGES.map((lang) => (
+//                 <SelectItem key={`source-${lang.code}`} value={lang.code}>
+//                   {lang.name}
+//                 </SelectItem>
+//               ))}
+//             </SelectContent>
+//           </Select>
+          
+//           <Select value={targetLanguage} onValueChange={setTargetLanguage}>
+//             <SelectTrigger className="w-[140px]">
+//               <SelectValue placeholder="Target Language" />
+//             </SelectTrigger>
+//             <SelectContent>
+//               {LANGUAGES.filter(lang => lang.code !== "auto").map((lang) => (
+//                 <SelectItem key={`target-${lang.code}`} value={lang.code}>
+//                   {lang.name}
+//                 </SelectItem>
+//               ))}
+//             </SelectContent>
+//           </Select>
+//         </div>
+//       </div>
+
+//       {error && (
+//         <div className="rounded-md bg-red-50 p-4 border border-red-300">
+//           <div className="flex">
+//             <div className="flex-shrink-0">
+//               <AlertCircle className="h-5 w-5 text-red-400" />
+//             </div>
+//             <div className="ml-3">
+//               <p className="text-sm text-red-700">{error}</p>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+
+//       <Button
+//         onClick={handleTranslate}
+//         className="w-full group relative overflow-hidden"
+//         disabled={isTranslating || segments.length === 0}
+//       >
+//         <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity" />
+//         {isTranslating ? (
+//           <span className="flex items-center">
+//             <Loader2 className="animate-spin mr-2 h-4 w-4" />
+//             Translating...
+//           </span>
+//         ) : (
+//           <span className="flex items-center">
+//             <Wand2 className="mr-2 h-4 w-4" />
+//             Translate Segments
+//           </span>
+//         )}
+//       </Button>
+
+//       {translatedSegments.length > 0 && (
+//         <div className="space-y-4 mt-4">
+//           {translatedSegments.map((segment, index) => (
+//             <motion.div
+//               key={index}
+//               initial={{ opacity: 0, y: 20 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               transition={{ duration: 0.3, delay: index * 0.05 }}
+//               className="rounded-md border border-border/30 bg-background/30 hover:border-border/50 backdrop-blur-sm"
+//             >
+//               <div className="p-4 border-b border-border/20">
+//                 <div className="flex justify-between items-start mb-2">
+//                   <div className="flex items-center gap-2">
+//                     <span className="text-xs text-muted-foreground">Original Segment {index + 1}</span>
+//                     {sourceLanguage === "auto" && segment.detectedLanguage && (
+//                       <Badge variant="secondary" className="text-xs">
+//                         {getLanguageName(segment.detectedLanguage)}
+//                       </Badge>
+//                     )}
+//                   </div>
+//                   <div className="flex space-x-1">
+//                     {/* <Badge
+//                       variant={
+//                         segment.healthScore >= 80 ? "success" : segment.healthScore >= 50 ? "warning" : "destructive"
+//                       }
+//                       className="text-xs"
+//                     >
+//                       {segment.healthScore}%
+//                     </Badge> */}
+//                   </div>
+//                 </div>
+//                 <p className="text-sm">{segment.text}</p>
+//               </div>
+
+//               <div className="p-4 bg-background/50">
+//                 <div className="flex justify-between items-start mb-2">
+//                   <span className="text-xs text-muted-foreground">
+//                     Translation ({getLanguageName(targetLanguage)})
+//                   </span>
+//                   <div className="flex space-x-1">
+//                     <Badge variant={segment.preservesGender ? "outline" : "destructive"} className="text-xs">
+//                       {segment.preservesGender ? (
+//                         <Check className="h-3 w-3 mr-1" />
+//                       ) : (
+//                         <AlertCircle className="h-3 w-3 mr-1" />
+//                       )}
+//                       Gender
+//                     </Badge>
+//                     <Badge variant={segment.preservesContext ? "outline" : "destructive"} className="text-xs">
+//                       {segment.preservesContext ? (
+//                         <Check className="h-3 w-3 mr-1" />
+//                       ) : (
+//                         <AlertCircle className="h-3 w-3 mr-1" />
+//                       )}
+//                       Context
+//                     </Badge>
+//                     <Badge variant={segment.preservesEntities ? "outline" : "destructive"} className="text-xs">
+//                       {segment.preservesEntities ? (
+//                         <Check className="h-3 w-3 mr-1" />
+//                       ) : (
+//                         <AlertCircle className="h-3 w-3 mr-1" />
+//                       )}
+//                       Entities
+//                     </Badge>
+//                   </div>
+//                 </div>
+//                 <p className="text-sm">{segment.translation}</p>
+//               </div>
+//             </motion.div>
+//           ))}
+//         </div>
+//       )}
+
+//       {segments.length > 0 && translatedSegments.length === 0 && !isTranslating && (
+//         <Card className="border border-border/50 bg-background/50 backdrop-blur-sm">
+//           <CardContent className="p-4">
+//             <div className="text-center py-12 text-muted-foreground">
+//               Click &quot;Translate Segments&quot; to see translations
+//             </div>
+//           </CardContent>
+//         </Card>
+//       )}
+
+//       {segments.length === 0 && (
+//         <Card className="border border-border/50 bg-background/50 backdrop-blur-sm">
+//           <CardContent className="p-4">
+//             <div className="text-center py-12 text-muted-foreground">Segment your text first to enable translation</div>
+//           </CardContent>
+//         </Card>
+//       )}
+//     </div>
+//   )
+// }
+
+
+//with google api 
 "use client"
 
 import { useState } from "react"
@@ -512,9 +841,10 @@ interface TranslatedSegment extends Segment {
   preservesContext: boolean
   preservesEntities: boolean
   detectedLanguage?: string
+  confidence?: number
 }
 
-// Common languages supported by Lingva
+// Common languages supported by Google Cloud Translation API
 const LANGUAGES = [
   { code: "auto", name: "Auto Detect" },
   { code: "en", name: "English" },
@@ -525,7 +855,8 @@ const LANGUAGES = [
   { code: "it", name: "Italian" },
   { code: "pt", name: "Portuguese" },
   { code: "ru", name: "Russian" },
-  { code: "zh", name: "Chinese" },
+  { code: "zh", name: "Chinese (Simplified)" },
+  { code: "zh-TW", name: "Chinese (Traditional)" },
   { code: "ja", name: "Japanese" },
   { code: "ko", name: "Korean" },
   { code: "ar", name: "Arabic" },
@@ -534,6 +865,12 @@ const LANGUAGES = [
   { code: "th", name: "Thai" },
   { code: "nl", name: "Dutch" },
   { code: "pl", name: "Polish" },
+  { code: "cs", name: "Czech" },
+  { code: "sv", name: "Swedish" },
+  { code: "id", name: "Indonesian" },
+  { code: "uk", name: "Ukrainian" },
+  { code: "he", name: "Hebrew" },
+  { code: "fa", name: "Persian" },
 ]
 
 // Map language codes to full names
@@ -549,59 +886,29 @@ export default function TranslationPanel({ segments }: TranslationPanelProps) {
   const [isTranslating, setIsTranslating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const translateText = async (text: string, source: string, target: string) => {
-    try {
-      const response = await fetch('/api/translate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text,
-          source,
-          target,
-        }),
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Translation failed');
-      }
-
-      const data = await response.json();
-      
-      return {
-        translation: data.translation,
-        detectedLanguage: data.info?.detectedSource || source,
-      };
-    } catch (error) {
-      console.error("Translation error:", error);
-      throw error;
-    }
-  }
-
   // Analyze translation for quality metrics
-  const analyzeTranslation = (original: string, translation: string) => {
-    // This is a simplified analysis
-    // For a production app, you'd want to implement a more sophisticated analysis
-    
-    // Check if original and translation have similar punctuation patterns
-    const originalPunctCount = (original.match(/[.,!?;:]/g) || []).length;
-    const translationPunctCount = (translation.match(/[.,!?;:]/g) || []).length;
-    const punctSimilarity = Math.abs(originalPunctCount - translationPunctCount) <= 2;
+  const analyzeTranslation = (original: string, translation: string, confidence?: number) => {
+    // Use confidence score if available
+    const confidenceScore = confidence || 0.7; // Default to 0.7 if not provided
     
     // Check if translated text length is reasonable compared to original
     const lengthRatio = translation.length / original.length;
     const reasonableLength = lengthRatio > 0.5 && lengthRatio < 2.5;
     
-    // Check for entities (capitalized words might be names, places, etc.)
+    // Check for named entities (capitalized words might be names, places, etc.)
     const originalEntities = original.match(/[A-Z][a-z]+/g) || [];
-    const preservesEntities = originalEntities.length === 0 || Math.random() > 0.2;
+    const translationEntities = translation.match(/[A-Z][a-z]+/g) || [];
+    const entityRatio = originalEntities.length > 0 ? 
+      Math.min(translationEntities.length / originalEntities.length, 1) : 1;
     
+    // Simple heuristics for different quality aspects
     return {
-      preservesGender: Math.random() > 0.2, // This would need real gender analysis
-      preservesContext: punctSimilarity && reasonableLength,
-      preservesEntities: preservesEntities,
+      // Higher confidence suggests better gender preservation
+      preservesGender: confidenceScore > 0.75,
+      // Context preservation depends on confidence and reasonable length
+      preservesContext: confidenceScore > 0.65 && reasonableLength,
+      // Entity preservation relies on entity count ratio and confidence
+      preservesEntities: confidenceScore > 0.7 && entityRatio > 0.7,
     };
   }
 
@@ -612,42 +919,57 @@ export default function TranslationPanel({ segments }: TranslationPanelProps) {
     setError(null);
     
     try {
-      const translatedResults = await Promise.all(
-        segments.map(async (segment) => {
-          try {
-            const { translation, detectedLanguage } = await translateText(
-              segment.text, 
-              sourceLanguage, 
-              targetLanguage
-            );
-            
-            const analysis = analyzeTranslation(segment.text, translation);
-            
-            return {
-              ...segment,
-              translation,
-              detectedLanguage,
-              preservesGender: analysis.preservesGender,
-              preservesContext: analysis.preservesContext,
-              preservesEntities: analysis.preservesEntities,
-            };
-          } catch (error) {
-            console.error(`Error translating segment: ${segment.text}`, error);
-            return {
-              ...segment,
-              translation: "Translation failed",
-              preservesGender: false,
-              preservesContext: false,
-              preservesEntities: false,
-            };
-          }
-        })
-      );
+      // Extract all texts for batch translation
+      const texts = segments.map(segment => segment.text);
+      
+      // Call the batch API endpoint
+      const response = await fetch('/api/google-translate-batch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          texts,
+          source: sourceLanguage === "auto" ? undefined : sourceLanguage,
+          target: targetLanguage,
+        }),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Translation failed');
+      }
+
+      const data = await response.json();
+      
+      if (!data.translations || data.translations.length !== segments.length) {
+        throw new Error('Invalid response from translation API');
+      }
+      
+      // Combine original segments with translation results
+      const translatedResults = segments.map((segment, index) => {
+        const translationData = data.translations[index];
+        const analysis = analyzeTranslation(
+          segment.text, 
+          translationData.translation, 
+          translationData.confidence
+        );
+        
+        return {
+          ...segment,
+          translation: translationData.translation,
+          detectedLanguage: translationData.detectedSourceLanguage,
+          confidence: translationData.confidence,
+          preservesGender: analysis.preservesGender,
+          preservesContext: analysis.preservesContext,
+          preservesEntities: analysis.preservesEntities,
+        };
+      });
 
       setTranslatedSegments(translatedResults);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Translation process error:", error);
-      setError("Failed to translate segments. Please try again.");
+      setError(error.message || "Failed to translate segments. Please try again.");
     } finally {
       setIsTranslating(false);
     }
@@ -657,7 +979,7 @@ export default function TranslationPanel({ segments }: TranslationPanelProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Globe className="h-5 w-5 text-blue-500" />
+          
           <h2 className="text-xl font-semibold">Translation</h2>
         </div>
         <div className="flex gap-2">
@@ -742,14 +1064,14 @@ export default function TranslationPanel({ segments }: TranslationPanelProps) {
                     )}
                   </div>
                   <div className="flex space-x-1">
-                    {/* <Badge
+                    <Badge
                       variant={
                         segment.healthScore >= 80 ? "success" : segment.healthScore >= 50 ? "warning" : "destructive"
                       }
                       className="text-xs"
                     >
                       {segment.healthScore}%
-                    </Badge> */}
+                    </Badge>
                   </div>
                 </div>
                 <p className="text-sm">{segment.text}</p>
@@ -761,6 +1083,11 @@ export default function TranslationPanel({ segments }: TranslationPanelProps) {
                     Translation ({getLanguageName(targetLanguage)})
                   </span>
                   <div className="flex space-x-1">
+                    {segment.confidence !== undefined && (
+                      <Badge variant="outline" className="text-xs">
+                        Confidence: {(segment.confidence * 100).toFixed(0)}%
+                      </Badge>
+                    )}
                     <Badge variant={segment.preservesGender ? "outline" : "destructive"} className="text-xs">
                       {segment.preservesGender ? (
                         <Check className="h-3 w-3 mr-1" />
