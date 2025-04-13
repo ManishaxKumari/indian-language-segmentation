@@ -33,8 +33,8 @@ export default function BeamBackground() {
       color: string
 
       constructor() {
-        this.x = Math.random() * canvas.width
-        this.y = Math.random() * canvas.height
+        this.x = Math.random() * (canvas?.width ?? 0)
+        this.y = Math.random() * (canvas?.height ?? 0)
         this.size = Math.random() * 2 + 0.5
         this.speedX = Math.random() * 0.5 - 0.25
         this.speedY = Math.random() * 0.5 - 0.25
@@ -44,6 +44,8 @@ export default function BeamBackground() {
       update() {
         this.x += this.speedX
         this.y += this.speedY
+
+        if (!canvas) return
 
         if (this.x > canvas.width) this.x = 0
         else if (this.x < 0) this.x = canvas.width
@@ -90,7 +92,7 @@ export default function BeamBackground() {
     }
 
     function animate() {
-      if (!ctx) return
+      if (!ctx || !canvas) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       // Draw a subtle gradient background
