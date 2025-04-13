@@ -77,7 +77,7 @@ export default function TranslationPanel({ segments }: TranslationPanelProps) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Translation</h2>
-        <Select value={translationModel} onValueChange={setTranslationModel}>
+        {/* <Select value={translationModel} onValueChange={setTranslationModel}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Model" />
           </SelectTrigger>
@@ -87,7 +87,7 @@ export default function TranslationPanel({ segments }: TranslationPanelProps) {
             <SelectItem value="mbart">mBART</SelectItem>
             <SelectItem value="google">Google Translate</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
       </div>
 
       <Button
